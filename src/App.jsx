@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import * as THREE from 'three';
 import OceanMap from './components/OceanMap';
 import DepthProfile from './components/DepthProfile';
+import backgroundVideo from './assets/Background-video.mp4';
+
 
 const FloatChat = () => {
   const [activeSection, setActiveSection] = useState('home');
@@ -325,22 +327,33 @@ const FloatChat = () => {
       {/* Three.js canvas */}
       <div ref={canvasRef} className="fixed inset-0 z-0" />
 
-      {/* VIDEO BACKGROUND - ADD YOUR VIDEO FILE PATH HERE */}
-      <div className="fixed inset-0 z-1 overflow-hidden">
-        <video
-          ref={videoRef}
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="w-full h-full object-cover"
-          style={{ filter: 'brightness(0.5) contrast(1.2)' }}
-        >
-          <source src="/src/assets/background-video.mp4" type="video/mp4" />
-          {/* Fallback image if video doesn't load */}
-          Your browser does not support the video tag.
-        </video>
-      </div>
+      {/* ===== VIDEO BACKGROUND - COMPLETE WORKING VERSION ===== */}
+<div className="fixed inset-0 z-1 overflow-hidden">
+  <video
+    ref={videoRef}
+    autoPlay
+    muted
+    loop
+    playsInline
+    className="absolute top-0 left-0 w-full h-full object-cover"
+    style={{ 
+      filter: 'brightness(0.5) contrast(1.2)',
+      objectFit: 'cover'
+    }}
+  >
+    {/* Primary source - imported video */}
+    <source src={backgroundVideo} type="video/mp4" />
+    
+    {/* Fallback source - from public folder (if import fails) */}
+    <source src="/videos/background-video.mp4" type="video/mp4" />
+    
+    {/* Fallback if video completely fails */}
+    <div className="absolute inset-0 bg-gradient-to-b from-blue-900 via-blue-800 to-indigo-900" />
+  </video>
+  
+  {/* Dark overlay for better text readability */}
+  <div className="absolute inset-0 bg-black/50 pointer-events-none" />
+</div>
 
       {/* Cursor ripple effects - UNCHANGED */}
       <div className="fixed inset-0 pointer-events-none z-10">
